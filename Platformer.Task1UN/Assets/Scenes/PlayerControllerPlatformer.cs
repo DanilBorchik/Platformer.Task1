@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControllerPlatformer : MonoBehaviour
@@ -27,7 +25,7 @@ public class PlayerControllerPlatformer : MonoBehaviour
         float movement = Input.GetAxis("Horizontal");
         transform.position += new Vector3(movement, 0, 0) * speed * Time.deltaTime;
 
-        anim.SetFloat("moveX", Mathf.Abs(Input.GetAxisRaw("Horizontal")));
+        anim.SetFloat("moveX", Mathf.Abs(Input.GetAxis("Horizontal")));
 
         if (Mathf.Abs(rb.velocity.y) < 0.05f)
         {
