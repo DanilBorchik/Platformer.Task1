@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerControllerPlatformer : MonoBehaviour
 {
     public float speed = 1f;
+    public float boost;
     public float jumpForce = 5f;
     Rigidbody2D rb;
     SpriteRenderer sr;
@@ -12,6 +13,8 @@ public class PlayerControllerPlatformer : MonoBehaviour
     private float pritazhenieNewPrivate;
     private bool isGround;
     float movement;
+    float coyoteTime = 0.3f;
+    float coyoteTimeCounter;
     int flip;
 
 
@@ -38,26 +41,51 @@ public class PlayerControllerPlatformer : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Collider2D[] colider = Physics2D.OverlapCircleAll(transform.position, 0.2f);
+        Collider2D[] colider = Physics2D.OverlapCircleAll(transform.position, 0.1f);
         isGround = colider.Length > 1;
     }
 
     private void Move()
     {
         movement = Input.GetAxis("Horizontal");
-        transform.position += new Vector3(movement, 0, 0) * speed * Time.deltaTime;
+        transform.position += new Vector3(movement * speed * Time.deltaTime, 0, 0);
 
+        if (movement != 0)
+        {
+            if (speed < 9f)
+            {
+                speed += boost * Time.deltaTime;
+            }
+        }
+        else
+        {
+            speed = 5;
+        }
         anim.SetFloat("moveX", Mathf.Abs(Input.GetAxis("Horizontal")));
     }
 
     private void Jump()
     {
+        if (isGround)
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+        if (coyoteTimeCounter > 0f && Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        }
+        if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0f)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+
+            coyoteTimeCounter = 0f;
+        }
         if (isGround == true)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-            }
             anim.SetBool("Jumping", false);
             pritazhenieNewPrivate = pritazhenieNew;
             rb.gravityScale = 0.1f;
