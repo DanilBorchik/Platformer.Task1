@@ -6,6 +6,10 @@ public class PlayerControllerPlatformer : MonoBehaviour
     public float jumpForce = 5f;
     Rigidbody2D rb;
     SpriteRenderer sr;
+    public float timerforpritazhenie;
+    private float timerforpritazheniePrivate;
+    public float pritazhenieNew;
+    private float pritazhenieNewPrivate;
     private bool isGround;
     float movement;
     int flip;
@@ -21,8 +25,8 @@ public class PlayerControllerPlatformer : MonoBehaviour
     private void Get()
     {
         rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
-        anim = GetComponent<Animator>();
+        sr = GetComponentInChildren<SpriteRenderer>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -31,6 +35,11 @@ public class PlayerControllerPlatformer : MonoBehaviour
         Move();
         Jump();
         Povorot();
+    }
+    private void FixedUpdate()
+    {
+        Collider2D[] colider = Physics2D.OverlapCircleAll(transform.position, 0.1f);
+        isGround = colider.Length > 1;
     }
 
     private void Move()
@@ -43,18 +52,27 @@ public class PlayerControllerPlatformer : MonoBehaviour
 
     private void Jump()
     {
-        if (Mathf.Abs(rb.velocity.y) < 0.05f)
+        if (isGround == true)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             }
             anim.SetBool("Jumping", false);
+            pritazhenieNewPrivate = pritazhenieNew;
+            rb.gravityScale = 0.1f;
+            timerforpritazheniePrivate = timerforpritazhenie;
         }
         else
         {
+            timerforpritazheniePrivate -= Time.deltaTime;
+            if (timerforpritazheniePrivate <= 0)
+            {
+                rb.gravityScale = pritazhenieNewPrivate;
+            }
             anim.SetBool("Jumping", true);
         }
+
     }
 
     void Povorot()
