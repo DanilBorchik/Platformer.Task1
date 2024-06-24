@@ -38,7 +38,7 @@ public class PlayerControllerPlatformer : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Collider2D[] colider = Physics2D.OverlapCircleAll(transform.position, 0.1f);
+        Collider2D[] colider = Physics2D.OverlapCircleAll(transform.position, 0.2f);
         isGround = colider.Length > 1;
     }
 
