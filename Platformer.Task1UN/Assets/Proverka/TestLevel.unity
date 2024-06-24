@@ -288,8 +288,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d00aab54da0ef84c8a114c86658da01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
-  jumpForce: 5
+  speed: 5
+  jumpForce: 6
   anim: {fileID: 0}
 --- !u!4 &657932371
 Transform:
