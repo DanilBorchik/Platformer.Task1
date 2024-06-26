@@ -37,20 +37,20 @@ public class PlayerControllerPlatformer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
         Jump();
         Povorot();
     }
     private void FixedUpdate()
     {
-        Collider2D[] colider = Physics2D.OverlapCircleAll(transform.position, 0.1f);
+        Collider2D[] colider = Physics2D.OverlapCircleAll(transform.position, 0.2f);
         isGround = colider.Length > 1;
+        Move();
     }
 
     private void Move()
     {
         movement = Input.GetAxis("Horizontal");
-        transform.position += new Vector3(movement * speed * Time.deltaTime, 0, 0);
+        transform.Translate(new Vector3(movement * speed * Time.fixedDeltaTime, 0, 0));
 
         if (movement != 0)
         {
@@ -87,7 +87,7 @@ public class PlayerControllerPlatformer : MonoBehaviour
 
             coyoteTimeCounter = 0f;
         }
-        if (isGround == true)
+        if (isGround)
         {
             anim.SetBool("Jumping", false);
             pritazhenieNewPrivate = pritazhenieNew;
