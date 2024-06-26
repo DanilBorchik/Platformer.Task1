@@ -1,15 +1,13 @@
 using UnityEngine;
-using UnityEngine.Animations;
-
 public class PlayerControllerPlatformer : MonoBehaviour
 {
     public float speed = 1f;
     public float boost;
     public float jumpForce = 5f;
-    Rigidbody2D rb;
-    SpriteRenderer sr;
+    Rigidbody2D _rb;
+    SpriteRenderer _sr;
     public float timerforpritazhenie;
-    private float timerforpritazheniePrivate;
+    private float _timerforpritazheniePrivate;
     public float pritazhenieNew;
     private float pritazhenieNewPrivate;
     private bool isGround;
@@ -20,8 +18,8 @@ public class PlayerControllerPlatformer : MonoBehaviour
     public AudioSource jump;
 
 
-    public Animator anim;
-    // Start is called before the first frame update
+    private Animator anim;
+    
     void Start()
     {
         Get();
@@ -29,8 +27,9 @@ public class PlayerControllerPlatformer : MonoBehaviour
 
     private void Get()
     {
-        rb = GetComponent<Rigidbody2D>();
-        sr = GetComponentInChildren<SpriteRenderer>();
+        _rb = GetComponent<Rigidbody2D>();
+      
+        _sr = GetComponentInChildren<SpriteRenderer>();
         anim = GetComponentInChildren<Animator>();
     }
 
@@ -78,12 +77,12 @@ public class PlayerControllerPlatformer : MonoBehaviour
         }
         if (coyoteTimeCounter > 0f && Input.GetKeyDown(KeyCode.Space))
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
             jump.Play();
         }
-        if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0f)
+        if (Input.GetKeyUp(KeyCode.Space) && _rb.velocity.y > 0f)
         {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+            _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * 0.5f);
 
             coyoteTimeCounter = 0f;
         }
@@ -91,15 +90,15 @@ public class PlayerControllerPlatformer : MonoBehaviour
         {
             anim.SetBool("Jumping", false);
             pritazhenieNewPrivate = pritazhenieNew;
-            rb.gravityScale = 0.1f;
-            timerforpritazheniePrivate = timerforpritazhenie;
+            _rb.gravityScale = 0.1f;
+            _timerforpritazheniePrivate = timerforpritazhenie;
         }
         else
         {
-            timerforpritazheniePrivate -= Time.deltaTime;
-            if (timerforpritazheniePrivate <= 0)
+            _timerforpritazheniePrivate -= Time.deltaTime;
+            if (_timerforpritazheniePrivate <= 0)
             {
-                rb.gravityScale = pritazhenieNewPrivate;
+                _rb.gravityScale = pritazhenieNewPrivate;
             }
             anim.SetBool("Jumping", true);
             
@@ -109,7 +108,7 @@ public class PlayerControllerPlatformer : MonoBehaviour
 
     void Povorot()
     {
-        sr.flipX = flip < 0;
+        _sr.flipX = flip < 0;
         if (Input.GetKey(KeyCode.D))
         {
             flip = 1;
