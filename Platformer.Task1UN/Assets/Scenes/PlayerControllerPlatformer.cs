@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class PlayerControllerPlatformer : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerControllerPlatformer : MonoBehaviour
     float coyoteTime = 0.3f;
     float coyoteTimeCounter;
     int flip;
+    public AudioSource jump;
 
 
     public Animator anim;
@@ -77,6 +79,7 @@ public class PlayerControllerPlatformer : MonoBehaviour
         if (coyoteTimeCounter > 0f && Input.GetKeyDown(KeyCode.Space))
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            jump.Play();
         }
         if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0f)
         {
@@ -99,6 +102,7 @@ public class PlayerControllerPlatformer : MonoBehaviour
                 rb.gravityScale = pritazhenieNewPrivate;
             }
             anim.SetBool("Jumping", true);
+            
         }
 
     }
