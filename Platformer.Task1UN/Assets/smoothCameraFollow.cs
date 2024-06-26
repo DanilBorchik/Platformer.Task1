@@ -12,10 +12,10 @@ public class smoothCameraFollow : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         transform.position = Vector3.Lerp
             (transform.position, objectToFollow.transform.position + offset - 
-                  new Vector3(0, Input.GetAxis("Vertical")*sensitivity), speed*Time.deltaTime);
+                  new Vector3(0, Input.GetAxis("Vertical")*sensitivity), speed*Time.fixedDeltaTime);
     }
 }
