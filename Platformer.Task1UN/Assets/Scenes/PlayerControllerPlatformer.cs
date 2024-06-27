@@ -1,6 +1,7 @@
 using UnityEngine;
 public class PlayerControllerPlatformer : MonoBehaviour
 {
+    [SerializeField] private savedPosition lastSavedPosition;
     public float speed = 1f;
     public float boost;
     public float jumpForce = 5f;
@@ -16,12 +17,12 @@ public class PlayerControllerPlatformer : MonoBehaviour
     float coyoteTimeCounter;
     int flip;
     public AudioSource jump;
-
-
-    private Animator anim;
     
+    private Animator anim;
+ 
     void Start()
     {
+        transform.position = lastSavedPosition.position;
         Get();
     }
 
@@ -44,6 +45,12 @@ public class PlayerControllerPlatformer : MonoBehaviour
         Collider2D[] colider = Physics2D.OverlapCircleAll(transform.position, 0.2f);
         isGround = colider.Length > 1;
         Move();
+
+        if (transform.position.y <= -10)
+        {
+            Start();
+        }
+        
     }
 
     private void Move()
