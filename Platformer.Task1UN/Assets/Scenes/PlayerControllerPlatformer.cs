@@ -17,12 +17,13 @@ public class PlayerControllerPlatformer : MonoBehaviour
     float coyoteTimeCounter;
     int flip;
     public AudioSource jump;
+    public AudioSource fail;
     
     private Animator anim;
  
     void Start()
     {
-        transform.position = lastSavedPosition.position;
+        transform.position = lastSavedPosition.position + Vector3.down*0.7f;
         Get();
     }
 
@@ -48,6 +49,7 @@ public class PlayerControllerPlatformer : MonoBehaviour
 
         if (transform.position.y <= -10)
         {
+            fail.Play();
             Start();
         }
         
