@@ -17,12 +17,13 @@ public class PlayerControllerPlatformer : MonoBehaviour
     float coyoteTimeCounter;
     int flip;
     public AudioSource jump;
-    
+    public AudioSource fail;
+    private ParticleSystem jumpParticles;
     private Animator anim;
  
     void Start()
     {
-        transform.position = lastSavedPosition.position;
+        lastSavedPosition.position = transform.position+Vector3.up*0.7f;
         Get();
     }
 
@@ -32,6 +33,7 @@ public class PlayerControllerPlatformer : MonoBehaviour
       
         _sr = GetComponentInChildren<SpriteRenderer>();
         anim = GetComponentInChildren<Animator>();
+        jumpParticles = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -48,7 +50,8 @@ public class PlayerControllerPlatformer : MonoBehaviour
 
         if (transform.position.y <= -10)
         {
-            Start();
+            fail.Play();
+            transform.position = lastSavedPosition.position + Vector3.down*0.7f;
         }
         
     }
@@ -86,11 +89,11 @@ public class PlayerControllerPlatformer : MonoBehaviour
         {
             _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
             jump.Play();
+            jumpParticles.Play();
         }
         if (Input.GetKeyUp(KeyCode.Space) && _rb.velocity.y > 0f)
         {
             _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * 0.5f);
-
             coyoteTimeCounter = 0f;
         }
         if (isGround)

@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1563337405268052949}
-  - component: {fileID: 1563337405268052950}
   - component: {fileID: 1563337405268052951}
+  - component: {fileID: 1563337405268052950}
   - component: {fileID: 1563337405268052948}
   - component: {fileID: 1563337405268052939}
   - component: {fileID: 1563337405268052944}
@@ -29,12 +29,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1563337405268052938}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.52, y: -2.08, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1563337405268052951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563337405268052938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 137f0fedd02a83f49823c91d433d8d1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pos: {fileID: 11400000, guid: 1861fbecb6312d444ac864014cb99e7b, type: 2}
+  saveSound: {fileID: 1563337405268052944}
+  player: {fileID: 0}
 --- !u!61 &1563337405268052950
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -42,7 +57,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1563337405268052938}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -61,20 +76,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.18, y: 0.31561518}
   m_EdgeRadius: 0
---- !u!114 &1563337405268052951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1563337405268052938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 137f0fedd02a83f49823c91d433d8d1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pos: {fileID: 11400000, guid: 1861fbecb6312d444ac864014cb99e7b, type: 2}
-  saveSound: {fileID: 1563337405268052944}
 --- !u!212 &1563337405268052948
 SpriteRenderer:
   m_ObjectHideFlags: 0
