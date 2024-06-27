@@ -1,49 +1,129 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class PlayerControllerPlatformer : MonoBehaviour
 {
+    [SerializeField] private savedPosition lastSavedPosition;
     public float speed = 1f;
+    public float boost;
     public float jumpForce = 5f;
-    Rigidbody2D rb;
-    SpriteRenderer sr;
+    Rigidbody2D _rb;
+    SpriteRenderer _sr;
+    public float timerforpritazhenie;
+    private float _timerforpritazheniePrivate;
+    public float pritazhenieNew;
+    private float pritazhenieNewPrivate;
     private bool isGround;
-
-
-    public Animator anim;
-    // Start is called before the first frame update
+    float movement;
+    float coyoteTime = 0.3f;
+    float coyoteTimeCounter;
+    int flip;
+    public AudioSource jump;
+    
+    private Animator anim;
+ 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
-        anim = GetComponent<Animator>();
+        transform.position = lastSavedPosition.position;
+        Get();
+    }
 
+    private void Get()
+    {
+        _rb = GetComponent<Rigidbody2D>();
+      
+        _sr = GetComponentInChildren<SpriteRenderer>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float movement = Input.GetAxis("Horizontal");
-        transform.position += new Vector3(movement, 0, 0) * speed * Time.deltaTime;
+        Jump();
+        Povorot();
+    }
+    private void FixedUpdate()
+    {
+        Collider2D[] colider = Physics2D.OverlapCircleAll(transform.position, 0.2f);
+        isGround = colider.Length > 1;
+        Move();
 
-        anim.SetFloat("moveX", Mathf.Abs(Input.GetAxisRaw("Horizontal")));
-
-        if (Mathf.Abs(rb.velocity.y) < 0.05f)
+        if (transform.position.y <= -10)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-            }
+            Start();
+        }
+        
+    }
 
-            anim.SetBool("Jumping", false);
+    private void Move()
+    {
+        movement = Input.GetAxis("Horizontal");
+        transform.Translate(new Vector3(movement * speed * Time.fixedDeltaTime, 0, 0));
+
+        if (movement != 0)
+        {
+            if (speed < 9f)
+            {
+                speed += boost * Time.deltaTime;
+            }
         }
         else
         {
+            speed = 5;
+        }
+        anim.SetFloat("moveX", Mathf.Abs(Input.GetAxis("Horizontal")));
+    }
+
+    private void Jump()
+    {
+        if (isGround)
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+        if (coyoteTimeCounter > 0f && Input.GetKeyDown(KeyCode.Space))
+        {
+            _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
+            jump.Play();
+        }
+        if (Input.GetKeyUp(KeyCode.Space) && _rb.velocity.y > 0f)
+        {
+            _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * 0.5f);
+
+            coyoteTimeCounter = 0f;
+        }
+        if (isGround)
+        {
+            anim.SetBool("Jumping", false);
+            pritazhenieNewPrivate = pritazhenieNew;
+            _rb.gravityScale = 0.1f;
+            _timerforpritazheniePrivate = timerforpritazhenie;
+        }
+        else
+        {
+            _timerforpritazheniePrivate -= Time.deltaTime;
+            if (_timerforpritazheniePrivate <= 0)
+            {
+                _rb.gravityScale = pritazhenieNewPrivate;
+            }
             anim.SetBool("Jumping", true);
+            
         }
 
-        sr.flipX = movement < 0 ? true : false;
+    }
+
+    void Povorot()
+    {
+        _sr.flipX = flip < 0;
+        if (Input.GetKey(KeyCode.D))
+        {
+            flip = 1;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            flip = -1;
+        }    
     }
 
 }
