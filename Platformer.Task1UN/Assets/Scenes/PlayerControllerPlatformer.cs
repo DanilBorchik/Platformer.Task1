@@ -16,6 +16,8 @@ public class PlayerControllerPlatformer : MonoBehaviour
     float coyoteTime = 0.3f;
     float coyoteTimeCounter;
     int flip;
+    bool bag = false;
+    bool kostil = false;
     public AudioSource jump;
     public AudioSource fail;
     private ParticleSystem jumpParticles;
@@ -73,6 +75,22 @@ public class PlayerControllerPlatformer : MonoBehaviour
             speed = 5;
         }
         anim.SetFloat("moveX", Mathf.Abs(Input.GetAxis("Horizontal")));
+        if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D) && isGround)
+        {
+            speed = 0;
+            bag = true;
+            kostil = true;
+            anim.SetFloat("moveX", 0.1f);
+        }
+        if (!Input.GetKey(KeyCode.A) || !Input.GetKey(KeyCode.D) && bag == true)
+        {
+            bag = false;
+        }
+        if (bag == false && kostil == true)
+        {
+            speed = 5;
+            kostil = false;
+        }
     }
 
     private void Jump()
