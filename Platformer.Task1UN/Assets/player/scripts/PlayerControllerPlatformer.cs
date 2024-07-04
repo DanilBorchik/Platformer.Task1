@@ -53,7 +53,8 @@ public class PlayerControllerPlatformer : MonoBehaviour
         if (transform.position.y <= -10)
         {
             fail.Play();
-            transform.position = lastSavedPosition.position + Vector3.down*0.7f;
+            transform.position = lastSavedPosition.position + Vector3.down * 0.7f;
+            _rb.velocity = new Vector2(0, 0);
         }
         
     }
