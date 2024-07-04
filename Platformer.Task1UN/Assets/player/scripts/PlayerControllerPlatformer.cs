@@ -15,9 +15,10 @@ public class PlayerControllerPlatformer : MonoBehaviour
     private float pritazhenieNewPrivate;
     private bool isGround;
     [SerializeField] float movement;
-    float coyoteTime = 0.1f;
+    float coyoteTime = 0.3f;
     float coyoteTimeCounter;
     int flip;
+    int colvoJump;
     [SerializeField] AudioSource jump;
     [SerializeField] AudioSource fail;
     private ParticleSystem jumpParticles;
@@ -60,7 +61,7 @@ public class PlayerControllerPlatformer : MonoBehaviour
     private void Move()
     {
         movement = Input.GetAxis("Horizontal");
-        if (Input.GetKey(KeyCode.A)&Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.A)&Input.GetKey(KeyCode.D)&isGround)
         {
             movement = 0;
         }
@@ -84,22 +85,33 @@ public class PlayerControllerPlatformer : MonoBehaviour
     {
         if (isGround)
         {
-            coyoteTimeCounter = coyoteTime;
+            colvoJump = 1;
         }
-        else
+        if (coyoteTimeCounter > 0)
         {
-            coyoteTimeCounter -= Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                colvoJump = 2;
+                coyoteTimeCounter = 0;
+            }
         }
-        if (coyoteTimeCounter > 0f && Input.GetKeyDown(KeyCode.Space))
+        CoyoteTim();
+        if (coyoteTimeCounter > 0 || colvoJump > 0)
         {
-            _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
-            jump.Play();
-            jumpParticles.Play();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
+                colvoJump--;
+                jump.Play();
+                jumpParticles.Play();
+                _rb.gravityScale = 0.1f;
+                _timerforpritazheniePrivate = timerforpritazhenie;
+            }
         }
         if (Input.GetKeyUp(KeyCode.Space) && _rb.velocity.y > 0f)
         {
             _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * 0.5f);
-            coyoteTimeCounter = 0f;
+            coyoteTimeCounter = 0;
         }
         if (isGround)
         {
@@ -116,9 +128,20 @@ public class PlayerControllerPlatformer : MonoBehaviour
                 _rb.gravityScale = pritazhenieNewPrivate;
             }
             anim.SetBool("Jumping", true);
-            
         }
 
+    }
+
+    private void CoyoteTim()
+    {
+        if (isGround)
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
     }
 
     void Povorot()
