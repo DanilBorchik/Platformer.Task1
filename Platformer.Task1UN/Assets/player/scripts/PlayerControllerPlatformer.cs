@@ -101,11 +101,17 @@ public class PlayerControllerPlatformer : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
-                colvoJump--;
+                
                 jump.Play();
                 jumpParticles.Play();
                 _rb.gravityScale = 0.1f;
                 _timerforpritazheniePrivate = timerforpritazhenie;
+                if (colvoJump == 1)
+                {
+                    anim.SetTrigger("doublejump");
+                    jumpParticles.Play();
+                }
+                colvoJump--;
             }
         }
         if (Input.GetKeyUp(KeyCode.Space) && _rb.velocity.y > 0f)
