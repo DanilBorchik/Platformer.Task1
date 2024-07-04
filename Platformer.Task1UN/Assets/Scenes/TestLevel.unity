@@ -4943,6 +4943,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5776975262573130481, guid: 6703978fb6370a0479facb3ca9ed6254,
         type: 3}
+      propertyPath: sensitivity
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5776975262573130481, guid: 6703978fb6370a0479facb3ca9ed6254,
+        type: 3}
       propertyPath: objectToFollow
       value: 
       objectReference: {fileID: 1402644631}
