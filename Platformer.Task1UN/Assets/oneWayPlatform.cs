@@ -13,7 +13,7 @@ public class oneWayPlatform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y + 0.01f < player.position.y)
+        if (transform.position.y + 0.3f < player.position.y)
         {
             myCollider.enabled = true;
         }

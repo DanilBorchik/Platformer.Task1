@@ -1,22 +1,22 @@
 fileFormatVersion: 2
-guid: 8201aeed941f39e4a81c666099a87236
+guid: f0fc5969fcbb3414097a0c76b93267ec
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
-  fontSize: 30
+  fontSize: 128
   forceTextureCase: 1
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Bump it up fixed 0
+  fontName: Zero Prime Italic
   fontNames:
-  - Bump it up fixed
+  - Zero Prime Italic
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 2
-  ascentCalculationMode: 2
+  ascentCalculationMode: 0
   useLegacyBoundsCalculation: 0
-  shouldRoundAdvanceValue: 0
+  shouldRoundAdvanceValue: 1
   userData: 
   assetBundleName: 
   assetBundleVariant: 
